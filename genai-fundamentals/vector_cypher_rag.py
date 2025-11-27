@@ -46,7 +46,7 @@ llm = OpenAILLM(model_name="gpt-4o-mini")
 rag = GraphRAG(retriever=retriever, llm=llm)
 
 # Search
-query_text = "Find the highest rated action movie about travelling to other planets"
+query_text = "Find a comedy movie about vampires"
 
 response = rag.search(
     query_text=query_text, 
