@@ -18,9 +18,28 @@ driver = GraphDatabase.driver(
 
 # Create Cypher LLM 
 t2c_llm = OpenAILLM(
-    model_name="gpt-4o-mini", 
+    model_name="gpt-4o", 
     model_params={"temperature": 0}
 )
+
+# Specify your own Neo4j schema
+neo4j_schema = """
+Node properties:
+Person {name: STRING, born: INTEGER}
+Movie {tagline: STRING, title: STRING, released: INTEGER}
+Genre {name: STRING}
+User {name: STRING}
+
+Relationship properties:
+ACTED_IN {role: STRING}
+RATED {rating: INTEGER}
+
+The relationships:
+(:Person)-[:ACTED_IN]->(:Movie)
+(:Person)-[:DIRECTED]->(:Movie)
+(:User)-[:RATED]->(:Movie)
+(:Movie)-[:IN_GENRE]->(:Genre)
+"""
 
 # Cypher examples as input/query pairs
 examples = [
@@ -31,15 +50,18 @@ examples = [
 retriever = Text2CypherRetriever(
     driver=driver,
     llm=t2c_llm,
+    neo4j_schema=neo4j_schema,
     examples=examples,
 )
 
-llm = OpenAILLM(model_name="gpt-4o")
+llm = OpenAILLM(model_name="gpt-4o-mini")
 rag = GraphRAG(retriever=retriever, llm=llm)
 
-#query_text = "What is the highest rating for Goodfellas?"
-#query_text = "What is the averaging user rating for the movie Toy Story?"
-query_text = "What user gives the lowest ratings?"
+query_text = "Which movies did Hugo Weaving star in?"
+query_text = "How many movies are in the Sci-Fi genre?"
+query_text = "What is the highest rating for Goodfellas?"
+query_text = "What is the averaging user rating for the movie Toy Story?"
+query_text = "What year was the movie Babe released?"
 
 response = rag.search(
     query_text=query_text,
