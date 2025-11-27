@@ -18,21 +18,28 @@ driver = GraphDatabase.driver(
 
 # Create Cypher LLM 
 t2c_llm = OpenAILLM(
-    model_name="gpt-4o", 
+    model_name="gpt-4o-mini", 
     model_params={"temperature": 0}
 )
+
+# Cypher examples as input/query pairs
+examples = [
+    "USER INPUT: 'Get user ratings for a movie?' QUERY: MATCH (u:User)-[r:RATED]->(m:Movie) WHERE m.title = 'Movie Title' RETURN r.rating"
+]
 
 # Build the retriever
 retriever = Text2CypherRetriever(
     driver=driver,
     llm=t2c_llm,
+    examples=examples,
 )
 
-llm = OpenAILLM(model_name="gpt-4o-mini")
+llm = OpenAILLM(model_name="gpt-4o")
 rag = GraphRAG(retriever=retriever, llm=llm)
 
-#query_text = "Which movies did Hugo Weaving acted in?"
-query_text = "Who directed the movie Superman"
+#query_text = "What is the highest rating for Goodfellas?"
+#query_text = "What is the averaging user rating for the movie Toy Story?"
+query_text = "What user gives the lowest ratings?"
 
 response = rag.search(
     query_text=query_text,
