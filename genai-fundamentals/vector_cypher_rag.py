@@ -27,7 +27,7 @@ RETURN
   node.title AS title, node.plot AS plot, score AS similarityScore, 
   collect { MATCH (node)-[:IN_GENRE]->(g) RETURN g.name } as genres, 
   collect { MATCH (node)<-[:ACTED_IN]->(a) RETURN a.name } as actors, 
-  collect { MATCH (node)<-[:DIRECTED]-(d) RETURN d.name } as directors
+  collect { MATCH (node)<-[:DIRECTED]-(d) RETURN d.name } as directors,
   avg(r.rating) as userRating
 ORDER BY userRating DESC
 """
