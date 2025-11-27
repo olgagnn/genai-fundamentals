@@ -32,7 +32,7 @@ from neo4j_graphrag.llm import OpenAILLM
 # Modify the LLM configuration if needed
 llm = OpenAILLM(
     model_name="gpt-4o-mini", 
-    model_params={"temperature": 5}
+    model_params={"temperature": 1}
 )
 
 from neo4j_graphrag.generation import GraphRAG
