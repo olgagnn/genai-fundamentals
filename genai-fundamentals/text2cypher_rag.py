@@ -31,8 +31,8 @@ retriever = Text2CypherRetriever(
 llm = OpenAILLM(model_name="gpt-4o-mini")
 rag = GraphRAG(retriever=retriever, llm=llm)
 
-query_text = "Which movies did Hugo Weaving acted in?"
-query_text = "What are examples of Action movies?"
+#query_text = "Which movies did Hugo Weaving acted in?"
+query_text = "Who directed the movie Superman"
 
 response = rag.search(
     query_text=query_text,
