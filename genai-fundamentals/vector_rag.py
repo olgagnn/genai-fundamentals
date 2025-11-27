@@ -45,7 +45,7 @@ query_text = "Find me movies about toys coming alive"
 
 response = rag.search(
     query_text=query_text, 
-    retriever_config={"top_k": 5}
+    retriever_config={"top_k": 5},
     return_context=True
 )
 
