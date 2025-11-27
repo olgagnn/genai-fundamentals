@@ -29,7 +29,7 @@ retriever = VectorRetriever(
 )
 
 # Search for similar items
-result = retriever.search(query_text="Toys coming alive", top_k=5)
+result = retriever.search(query_text="A very sad love story", top_k=5)
 
 # Parse results
 for item in result.items:
