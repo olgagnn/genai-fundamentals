@@ -50,6 +50,7 @@ response = rag.search(
 )
 
 print(response.answer)
+print("CONTEXT:", response.retriever_result.items)
 
 # CLose the database connection
 driver.close()
